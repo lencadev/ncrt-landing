@@ -1,0 +1,103 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="NCR Trucking Inc - Servicios de transporte especializados" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | NCR Trucking Inc</title>
+    <!-- Precargar video -->
+    <link rel="preload" as="video" href="/videos/hero.mp4" type="video/mp4" />
+  </head>
+  <body class="min-h-screen bg-white">
+    <!-- Header con navegación -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <!-- Logo -->
+          <a href="/" class="text-xl font-bold text-primary">
+            NCR Trucking Inc
+          </a>
+          
+          <!-- Navegación Desktop -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/who-we-are" class="nav-link">Who We Are</a>
+            <a href="/what-we-do" class="nav-link">What We Do</a>
+            <a href="/territory" class="nav-link">Territory We Cover</a>
+            <a href="/contact" class="nav-link">Contact Us</a>
+          </div>
+
+          <!-- Botón Mobile Menu -->
+          <button 
+            id="mobile-menu-button"
+            class="md:hidden text-primary p-2"
+            aria-label="Menu"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              class="h-6 w-6" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M4 6h16M4 12h16m-16 6h16"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div 
+          id="mobile-menu" 
+          class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+        >
+          <div class="flex flex-col space-y-4 p-4">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/who-we-are" class="nav-link">Who We Are</a>
+            <a href="/what-we-do" class="nav-link">What We Do</a>
+            <a href="/territory" class="nav-link">Territory We Cover</a>
+            <a href="/contact" class="nav-link">Contact Us</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="pt-16">
+      <slot />
+    </main>
+
+    <!-- Script para el menú mobile -->
+    <script>
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      mobileMenuButton?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+      });
+    </script>
+
+    <style is:global>
+      .nav-link {
+        @apply text-primary hover:text-accent transition-colors duration-200 font-medium;
+      }
+
+      .nav-link.active {
+        @apply text-accent;
+      }
+    </style>
+  </body>
+</html>
