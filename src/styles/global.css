@@ -33,3 +33,16 @@
     transform: translateY(0);
   }
 }
+
+/* Añade al final del archivo */
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+.section-padding {
+  @apply py-16 md:py-24;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-blue-600;
+}
