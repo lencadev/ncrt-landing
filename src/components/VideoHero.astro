@@ -1,0 +1,61 @@
+---
+---
+<section class="relative h-screen w-full overflow-hidden">
+  <!-- Overlay para mejorar la legibilidad del texto -->
+  <div class="absolute inset-0 bg-black/40 z-10"></div>
+  
+  <!-- Video de fondo -->
+  <video 
+    autoplay 
+    loop 
+    muted 
+    playsinline 
+    class="absolute inset-0 w-full h-full object-cover"
+  >
+    <source src="/videos/hero.mp4" type="video/mp4" />
+    Tu navegador no soporta el elemento de video.
+  </video>
+
+  <!-- Contenido sobre el video -->
+  <div class="relative z-20 h-full container mx-auto flex flex-col justify-center items-start px-4 md:px-6">
+    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 fade-in">
+      NCR Trucking Inc
+    </h1>
+    <p class="text-xl md:text-2xl text-white/90 max-w-2xl fade-in animation-delay-200">
+      Providing safe and reliable transportation services since 2019
+    </p>
+    <a 
+      href="#services" 
+      class="mt-8 px-8 py-3 bg-accent text-white rounded-md hover:bg-accent/90 transition-colors duration-300 fade-in animation-delay-400"
+    >
+      Our Services
+    </a>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+    <svg 
+      class="w-6 h-6 text-white" 
+      fill="none" 
+      stroke="currentColor" 
+      viewBox="0 0 24 24"
+    >
+      <path 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="2" 
+        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+      />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+</style>
