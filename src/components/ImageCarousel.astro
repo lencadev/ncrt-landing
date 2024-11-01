@@ -1,0 +1,109 @@
+---
+// Definimos el array de imágenes
+const images = [
+  {
+    url: '/images/truck-1.webp',
+    alt: 'NCR Trucking Service - Truck 1'
+  },
+  {
+    url: '/images/truck-2.webp',
+    alt: 'NCR Trucking Service - Truck 2'
+  },
+  {
+    url: '/images/truck-3.webp',
+    alt: 'NCR Trucking Service - Truck 3'
+  },
+  {
+    url: '/images/truck-4.webp',
+    alt: 'NCR Trucking Service - Truck 4'
+  },
+  {
+    url: '/images/truck-5.webp',
+    alt: 'NCR Trucking Service - Truck 5'
+  }
+];
+---
+
+<div class="w-full relative overflow-hidden">
+  <div class="swiper image-carousel">
+    <div class="swiper-wrapper">
+      {
+        images.map((image) => (
+          <div class="swiper-slide">
+            <img 
+              src={image.url} 
+              alt={image.alt} 
+              class="w-full h-[280px] object-cover rounded-lg"
+              loading="lazy"
+            />
+          </div>
+        ))
+      }
+    </div>
+    
+    <!-- Navegación -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+
+  new Swiper('.image-carousel', {
+    modules: [Navigation, Pagination, Autoplay],
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+      delay: 3500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+    },
+  });
+</script>
+
+<style>
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply text-accent opacity-0 transition-opacity duration-300;
+  }
+
+  .swiper:hover .swiper-button-next,
+  .swiper:hover .swiper-button-prev {
+    @apply opacity-100;
+  }
+
+  .swiper-pagination-bullet-active {
+    @apply bg-accent;
+  }
+
+  .swiper-slide {
+    @apply transition-transform duration-300;
+  }
+
+  .swiper-slide-active {
+    @apply scale-105;
+  }
+</style>
