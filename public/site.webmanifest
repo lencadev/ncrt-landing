@@ -1,0 +1,21 @@
+{
+  "name": "NCR Trucking Inc",
+  "short_name": "NCR Trucking",
+  "description": "Professional transportation services specializing in steel plates, coils, and specialized cargo.",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icon_x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#4a90e2",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

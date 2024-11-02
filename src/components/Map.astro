@@ -1,0 +1,92 @@
+---
+interface Props {
+  center: [number, number];
+  zoom: number;
+  markers: Array<{
+    position: [number, number];
+    title: string;
+    type: 'headquarters' | 'terminal' | 'office';
+  }>;
+}
+
+const { center, zoom, markers } = Astro.props;
+---
+
+<div id="map" class="w-full h-[400px] rounded-lg shadow-lg" data-props={JSON.stringify({ center, zoom, markers })}></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<script>
+  import L from 'leaflet';
+
+  interface MarkerData {
+    position: [number, number];
+    title: string;
+    type: 'headquarters' | 'terminal' | 'office';
+  }
+
+  interface MapData {
+    center: [number, number];
+    zoom: number;
+    markers: MarkerData[];
+  }
+
+  const markerIcons: Record<MarkerData['type'], L.Icon> = {
+    headquarters: L.icon({
+      iconUrl: '/images/markers/headquarters.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    }),
+    terminal: L.icon({
+      iconUrl: '/images/markers/terminal.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    }),
+    office: L.icon({
+      iconUrl: '/images/markers/office.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    })
+  };
+
+  function initMap() {
+    const mapElement = document.getElementById('map');
+    if (!mapElement) return;
+
+    const mapData = JSON.parse(mapElement.dataset.props || '{}') as MapData;
+    
+    const map = L.map('map').setView(mapData.center, mapData.zoom);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    mapData.markers.forEach((marker: MarkerData) => {
+      const icon = markerIcons[marker.type];
+      
+      L.marker(marker.position, { icon })
+        .bindPopup(`
+          <div class="text-center">
+            <h3 class="font-semibold">${marker.title}</h3>
+            <p class="text-sm text-gray-600">${marker.type}</p>
+          </div>
+        `)
+        .addTo(map);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMap);
+</script>
+
+<style>
+  :global(.leaflet-popup-content-wrapper) {
+    border-radius: 0.5rem;
+  }
+
+  :global(.leaflet-popup-content) {
+    margin: 0.75rem;
+  }
+</style>

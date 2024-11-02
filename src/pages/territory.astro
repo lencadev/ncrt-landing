@@ -1,0 +1,743 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { routesSEO } from '../data/seo';
+import { Image } from 'astro:assets';
+
+// Interfaces
+interface State {
+    name: string;
+    code: string;
+    coverage: 'full' | 'partial';
+    mainCities: string[];
+    transitTimes: {
+        standard: string;
+        express: string;
+    };
+    services: string[];
+    restrictions?: string[];
+}
+
+interface Region {
+    name: string;
+    states: string[];
+    description: string;
+    mainRoutes: string[];
+    serviceLevel: number; // Porcentaje de cobertura
+    image: string;
+}
+
+interface OperationCenter {
+    name: string;
+    city: string;
+    state: string;
+    coordinates: {
+        lat: number;
+        lng: number;
+    };
+    services: string[];
+    coverage: string[];
+    image: string;
+}
+
+interface Route {
+    id: string;
+    name: string;
+    origin: string;
+    destination: string;
+    distance: string;
+    transitTime: string;
+    frequency: string;
+    stops: string[];
+    type: 'primary' | 'secondary';
+}
+
+interface ServiceArea {
+    region: string;
+    description: string;
+    services: {
+        name: string;
+        availability: string;
+        restrictions?: string[];
+    }[];
+    deliveryPoints: string[];
+    image: string;
+}
+
+// Datos
+const states: State[] = [
+    {
+        name: "Illinois",
+        code: "IL",
+        coverage: "full",
+        mainCities: ["Chicago", "Springfield", "Rockford", "Peoria"],
+        transitTimes: {
+            standard: "1-2 days",
+            express: "Same day"
+        },
+        services: [
+            "Steel Transport",
+            "Flatbed Services",
+            "Heavy Haul",
+            "Express Delivery"
+        ]
+    },
+    {
+        name: "Indiana",
+        code: "IN",
+        coverage: "full",
+        mainCities: ["Indianapolis", "Fort Wayne", "Gary", "South Bend"],
+        transitTimes: {
+            standard: "1-2 days",
+            express: "Next day"
+        },
+        services: [
+            "Steel Transport",
+            "Flatbed Services",
+            "Specialized Cargo"
+        ]
+    },
+    {
+        name: "Michigan",
+        code: "MI",
+        coverage: "full",
+        mainCities: ["Detroit", "Grand Rapids", "Warren", "Lansing"],
+        transitTimes: {
+            standard: "2-3 days",
+            express: "Next day"
+        },
+        services: [
+            "Steel Transport",
+            "Automotive Logistics",
+            "Heavy Haul"
+        ]
+    },
+    {
+        name: "Ohio",
+        code: "OH",
+        coverage: "full",
+        mainCities: ["Columbus", "Cleveland", "Cincinnati", "Toledo"],
+        transitTimes: {
+            standard: "2-3 days",
+            express: "Next day"
+        },
+        services: [
+            "Steel Transport",
+            "Manufacturing Logistics",
+            "Specialized Cargo"
+        ]
+    },
+    {
+        name: "Wisconsin",
+        code: "WI",
+        coverage: "partial",
+        mainCities: ["Milwaukee", "Madison", "Green Bay"],
+        transitTimes: {
+            standard: "2-3 days",
+            express: "Next day"
+        },
+        services: [
+            "Steel Transport",
+            "Flatbed Services"
+        ],
+        restrictions: [
+            "Limited service in northern regions",
+            "Weather dependent in winter"
+        ]
+    }
+];
+
+const regions: Region[] = [
+    {
+        name: "Greater Chicago Area",
+        states: ["IL", "IN"],
+        description: "Our primary service region with comprehensive coverage and fastest transit times. Hub for steel transport and manufacturing logistics.",
+        mainRoutes: [
+            "Chicago - Gary",
+            "Chicago - Indianapolis",
+            "Chicago - Milwaukee"
+        ],
+        serviceLevel: 100,
+        image: "/images/regions/chicago.webp"
+    },
+    {
+        name: "Eastern Midwest",
+        states: ["OH", "MI"],
+        description: "Strong presence in automotive and manufacturing sectors with reliable delivery networks.",
+        mainRoutes: [
+            "Detroit - Cleveland",
+            "Columbus - Cincinnati",
+            "Toledo - Detroit"
+        ],
+        serviceLevel: 90,
+        image: "/images/regions/eastern-midwest.webp"
+    },
+    {
+        name: "Upper Midwest",
+        states: ["WI", "MN"],
+        description: "Strategic coverage of major industrial and commercial centers with specialized services.",
+        mainRoutes: [
+            "Milwaukee - Madison",
+            "Green Bay - Minneapolis",
+            "Madison - Chicago"
+        ],
+        serviceLevel: 75,
+        image: "/images/regions/upper-midwest.webp"
+    }
+];
+
+const operationCenters: OperationCenter[] = [
+    {
+        name: "Chicago Hub",
+        city: "Chicago",
+        state: "IL",
+        coordinates: {
+            lat: 41.8781,
+            lng: -87.6298
+        },
+        services: [
+            "24/7 Dispatch",
+            "Maintenance Facility",
+            "Cross-dock Operations",
+            "Driver Training Center"
+        ],
+        coverage: [
+            "Greater Chicago Area",
+            "Northern Illinois",
+            "Northwestern Indiana"
+        ],
+        image: "/images/centers/chicago-hub.webp"
+    },
+    {
+        name: "Detroit Terminal",
+        city: "Detroit",
+        state: "MI",
+        coordinates: {
+            lat: 42.3314,
+            lng: -83.0458
+        },
+        services: [
+            "Regional Dispatch",
+            "Equipment Yard",
+            "Maintenance Support",
+            "Driver Facilities"
+        ],
+        coverage: [
+            "Southeast Michigan",
+            "Northern Ohio",
+            "Eastern Indiana"
+        ],
+        image: "/images/centers/detroit-terminal.webp"
+    }
+];
+
+const routes: Route[] = [
+    {
+        id: "CHI-DET",
+        name: "Chicago-Detroit Express",
+        origin: "Chicago, IL",
+        destination: "Detroit, MI",
+        distance: "282 miles",
+        transitTime: "1 day",
+        frequency: "Daily",
+        stops: ["Gary, IN", "Kalamazoo, MI"],
+        type: "primary"
+    },
+    {
+        id: "CHI-CLE",
+        name: "Chicago-Cleveland Route",
+        origin: "Chicago, IL",
+        destination: "Cleveland, OH",
+        distance: "344 miles",
+        transitTime: "1-2 days",
+        frequency: "3x weekly",
+        stops: ["Toledo, OH"],
+        type: "primary"
+    }
+];
+
+const serviceAreas: ServiceArea[] = [
+    {
+        region: "Metropolitan Chicago",
+        description: "Complete coverage with premium services and fastest response times.",
+        services: [
+            {
+                name: "Steel Transport",
+                availability: "24/7"
+            },
+            {
+                name: "Express Delivery",
+                availability: "Same day"
+            },
+            {
+                name: "Heavy Haul",
+                availability: "By appointment",
+                restrictions: ["Permit required for loads over 80,000 lbs"]
+            }
+        ],
+        deliveryPoints: [
+            "Steel Mills",
+            "Manufacturing Plants",
+            "Distribution Centers",
+            "Construction Sites"
+        ],
+        image: "/images/areas/chicago-metro.webp"
+    },
+    {
+        region: "Detroit Industrial",
+        description: "Specialized automotive and manufacturing logistics hub.",
+        services: [
+            {
+                name: "Automotive Transport",
+                availability: "24/7"
+            },
+            {
+                name: "Just-in-Time Delivery",
+                availability: "Scheduled"
+            }
+        ],
+        deliveryPoints: [
+            "Auto Plants",
+            "Parts Suppliers",
+            "Warehouses",
+            "Processing Centers"
+        ],
+        image: "/images/areas/detroit-industrial.webp"
+    }
+];
+---
+
+<Layout seo={routesSEO.territory}>
+  <!-- Hero Section -->
+  <section class="relative py-20 bg-primary text-white overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src="/images/territory/hero-map.webp"
+        alt="Service Territory Map"
+        width={1920}
+        height={1080}
+        class="w-full h-full object-cover opacity-20"
+      />
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
+          Our Service Territory
+        </h1>
+        <p class="text-xl text-gray-300 mb-8 animate-fade-up animation-delay-200">
+          Strategic coverage across the Midwest region with reliable transportation
+          services and extensive network connectivity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coverage Map Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Coverage Area</h2>
+        <p class="text-lg text-gray-600">
+          Explore our comprehensive service network spanning multiple states with
+          strategic operation centers and optimized routes.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Estados con Cobertura -->
+        <div class="lg:col-span-2 bg-gray-50 rounded-lg p-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {states.map((state, index) => (
+              <div 
+                class="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-up"
+                style={`animation-delay: ${index * 150}ms`}
+              >
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-xl font-semibold">{state.name}</h3>
+                  <span class={`px-3 py-1 rounded-full text-sm font-medium ${
+                    state.coverage === 'full' 
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-yellow-100 text-yellow-800'
+                  }`}>
+                    {state.coverage === 'full' ? 'Full Coverage' : 'Partial Coverage'}
+                  </span>
+                </div>
+
+                <div class="space-y-4">
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-2">Main Cities:</h4>
+                    <div class="flex flex-wrap gap-2">
+                      {state.mainCities.map(city => (
+                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                          {city}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-2">Transit Times:</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div>
+                        <p class="text-sm text-gray-600">Standard</p>
+                        <p class="font-medium">{state.transitTimes.standard}</p>
+                      </div>
+                      <div>
+                        <p class="text-sm text-gray-600">Express</p>
+                        <p class="font-medium">{state.transitTimes.express}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-2">Available Services:</h4>
+                    <ul class="space-y-1">
+                      {state.services.map(service => (
+                        <li class="flex items-center text-gray-600">
+                          <svg class="w-4 h-4 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          {service}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {state.restrictions && (
+                    <div>
+                      <h4 class="font-medium text-gray-700 mb-2">Restrictions:</h4>
+                      <ul class="space-y-1">
+                        {state.restrictions.map(restriction => (
+                          <li class="flex items-center text-gray-600">
+                            <svg class="w-4 h-4 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            {restriction}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Regional Info -->
+        <div class="space-y-6">
+          {regions.map((region, index) => (
+            <div 
+              class="bg-white rounded-lg shadow-lg overflow-hidden animate-fade-up"
+              style={`animation-delay: ${index * 200}ms`}
+            >
+              <div class="relative h-48">
+                <Image
+                  src={region.image}
+                  alt={region.name}
+                  width={600}
+                  height={400}
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                  <h3 class="text-xl font-semibold text-white">{region.name}</h3>
+                  <div class="flex items-center text-white/90">
+                    <div class="flex-1 h-2 bg-white/30 rounded-full overflow-hidden">
+                      <div 
+                        class="h-full bg-accent rounded-full"
+                        style={`width: ${region.serviceLevel}%`}
+                      ></div>
+                    </div>
+                    <span class="ml-2 text-sm">{region.serviceLevel}% Coverage</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">{region.description}</p>
+                <div>
+                  <h4 class="font-medium text-gray-700 mb-2">Main Routes:</h4>
+                  <ul class="space-y-1">
+                    {region.mainRoutes.map(route => (
+                      <li class="flex items-center text-gray-600">
+                        <svg class="w-4 h-4 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        {route}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Operation Centers -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Operation Centers</h2>
+        <p class="text-lg text-gray-600">
+          Strategically located facilities ensuring efficient service delivery
+          across our coverage area.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {operationCenters.map((center, index) => (
+          <div 
+            class="bg-white rounded-lg shadow-lg overflow-hidden animate-fade-up"
+            style={`animation-delay: ${index * 200}ms`}
+          >
+            <div class="relative h-64">
+              <Image
+                src={center.image}
+                alt={center.name}
+                width={800}
+                height={500}
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-bold mb-2">{center.name}</h3>
+                  <p class="text-lg">{center.city}, {center.state}</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="font-semibold text-gray-700 mb-3">Available Services:</h4>
+                  <ul class="space-y-2">
+                    {center.services.map(service => (
+                      <li class="flex items-start text-gray-600">
+                        <svg class="w-5 h-5 text-accent mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-700 mb-3">Coverage Areas:</h4>
+                  <ul class="space-y-2">
+                    {center.coverage.map(area => (
+                      <li class="flex items-start text-gray-600">
+                        <svg class="w-5 h-5 text-accent mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        {area}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Routes Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Primary Routes</h2>
+        <p class="text-lg text-gray-600">
+          Optimized transportation routes ensuring efficient and reliable delivery.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {routes.map((route, index) => (
+          <div 
+            class="bg-gray-50 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-up"
+            style={`animation-delay: ${index * 200}ms`}
+          >
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-semibold">{route.name}</h3>
+              <span class={`px-3 py-1 rounded-full text-sm font-medium ${
+                route.type === 'primary' 
+                  ? 'bg-accent/10 text-accent'
+                  : 'bg-gray-100 text-gray-700'
+              }`}>
+                {route.type === 'primary' ? 'Primary Route' : 'Secondary Route'}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Origin</p>
+                <p class="font-medium">{route.origin}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Destination</p>
+                <p class="font-medium">{route.destination}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Distance</p>
+                <p class="font-medium">{route.distance}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Transit Time</p>
+                <p class="font-medium">{route.transitTime}</p>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <p class="text-sm text-gray-500 mb-2">Service Frequency</p>
+              <p class="text-accent font-medium">{route.frequency}</p>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Stops</p>
+              <div class="flex flex-wrap gap-2">
+                {route.stops.map(stop => (
+                  <span class="bg-white px-3 py-1 rounded-full text-sm text-gray-700 shadow-sm">
+                    {stop}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Areas Detail -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Service Areas</h2>
+        <p class="text-lg text-gray-600">
+          Detailed information about our service capabilities in key regions.
+        </p>
+      </div>
+
+      <div class="space-y-12">
+        {serviceAreas.map((area, index) => (
+          <div 
+            class="bg-white rounded-lg shadow-lg overflow-hidden animate-fade-up"
+            style={`animation-delay: ${index * 200}ms`}
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+              <div class="relative h-full min-h-[300px]">
+                <Image
+                  src={area.image}
+                  alt={area.region}
+                  width={800}
+                  height={600}
+                  class="absolute w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-8">
+                <h3 class="text-2xl font-bold mb-4">{area.region}</h3>
+                <p class="text-gray-600 mb-6">{area.description}</p>
+
+                <div class="space-y-6">
+                  <div>
+                    <h4 class="font-semibold text-gray-700 mb-3">Available Services:</h4>
+                    <div class="space-y-3">
+                      {area.services.map(service => (
+                        <div class="flex justify-between items-center">
+                          <span class="text-gray-600">{service.name}</span>
+                          <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">
+                            {service.availability}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-semibold text-gray-700 mb-3">Delivery Points:</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                      {area.deliveryPoints.map(point => (
+                        <div class="flex items-center text-gray-600">
+                          <svg class="w-4 h-4 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          {point}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-primary text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 animate-fade-up">
+        Ready to Ship Within Our Network?
+      </h2>
+      <p class="text-xl mb-12 max-w-2xl mx-auto animate-fade-up animation-delay-200">
+        Contact us today to discuss your shipping needs and discover how our
+        extensive coverage can benefit your business.
+      </p>
+      <div class="flex justify-center gap-4 animate-fade-up animation-delay-400">
+        <a 
+          href="/contact" 
+          class="bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-md transition-colors duration-300"
+        >
+          Get a Quote
+        </a>
+        <a 
+          href="/what-we-do" 
+          class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-md transition-colors duration-300"
+        >
+          Our Services
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+

@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ncrtrucking.com/sitemap-index.xml
+
+# Host
+Host: https://ncrtrucking.com
+
+# Crawl-delay
+Crawl-delay: 10

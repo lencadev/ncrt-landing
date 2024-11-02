@@ -1,0 +1,569 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { routesSEO } from '../data/seo';
+import { Image } from 'astro:assets';
+
+// Interfaces
+interface TeamMember {
+  name: string;
+  position: string;
+  bio: string;
+  image: string;
+  experience: string;
+  expertise: string[];
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
+
+interface CompanyValue {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface Certification {
+  name: string;
+  issuer: string;
+  year: string;
+  description: string;
+  image: string;
+}
+
+interface Timeline {
+  year: string;
+  title: string;
+  description: string;
+  image?: string;
+  milestone: boolean;
+}
+
+interface FAQ {
+  question: string;
+  answer: string;
+  category: string;
+}
+
+interface Culture {
+  title: string;
+  description: string;
+  image: string;
+}
+
+// Datos
+const companyValues: CompanyValue[] = [
+  {
+    title: "Safety First",
+    description: "Safety is not just a priority - it's a core value embedded in every aspect of our operations. We maintain rigorous safety standards that exceed industry requirements.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />`
+  },
+  {
+    title: "Customer Excellence",
+    description: "We're committed to exceeding customer expectations through reliable service, transparent communication, and tailored transportation solutions.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />`
+  },
+  {
+    title: "Professional Integrity",
+    description: "Our business is built on trust, honesty, and ethical conduct. We maintain the highest standards of professional integrity in all our dealings.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`
+  },
+  {
+    title: "Innovation",
+    description: "We continuously invest in modern technology and equipment to improve efficiency, safety, and service quality for our clients.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />`
+  }
+];
+
+const teamMembers: TeamMember[] = [
+  {
+    name: "Robert Johnson",
+    position: "Chief Executive Officer",
+    bio: "With over 25 years in transportation and logistics, Robert has led NCR Trucking from its foundation to becoming a leading specialized transport provider.",
+    image: "/images/team/ceo.webp",
+    experience: "25+ years in transportation",
+    expertise: ["Strategic Planning", "Operations Management", "Industry Relations"],
+    contact: {
+      email: "robert.johnson@ncrtrucking.com",
+      phone: "773-819-7400"
+    }
+  },
+  {
+    name: "Maria Rodriguez",
+    position: "Operations Director",
+    bio: "Maria brings 15 years of logistics expertise, focusing on optimizing fleet operations and enhancing service delivery efficiency.",
+    image: "/images/team/operations-director.webp",
+    experience: "15+ years in logistics",
+    expertise: ["Fleet Management", "Route Optimization", "Team Leadership"],
+    contact: {
+      email: "maria.rodriguez@ncrtrucking.com",
+      phone: "773-819-7401"
+    }
+  },
+  {
+    name: "David Chen",
+    position: "Safety Director",
+    bio: "Leading our safety initiatives, David ensures compliance with regulations while maintaining our outstanding safety record.",
+    image: "/images/team/safety-director.webp",
+    experience: "18+ years in safety management",
+    expertise: ["Safety Protocols", "Driver Training", "Regulatory Compliance"],
+    contact: {
+      email: "david.chen@ncrtrucking.com",
+      phone: "773-827-3272"
+    }
+  }
+];
+
+const certifications: Certification[] = [
+  {
+    name: "DOT Safety Excellence",
+    issuer: "Department of Transportation",
+    year: "2023",
+    description: "Recognition for maintaining exceptional safety standards and compliance records.",
+    image: "/images/certifications/dot-safety.webp"
+  },
+  {
+    name: "SmartWay Transport Partner",
+    issuer: "Environmental Protection Agency",
+    year: "2022",
+    description: "Certified for commitment to environmental sustainability in freight transportation.",
+    image: "/images/certifications/smartway.webp"
+  },
+  {
+    name: "ISO 9001:2015",
+    issuer: "International Organization for Standardization",
+    year: "2021",
+    description: "Certification for quality management systems in transportation services.",
+    image: "/images/certifications/iso.webp"
+  }
+];
+
+const timeline: Timeline[] = [
+  {
+    year: "2019",
+    title: "Company Foundation",
+    description: "NCR Trucking established with a fleet of 3 trucks, focusing on steel transport in Chicago area.",
+    image: "/images/history/foundation.webp",
+    milestone: true
+  },
+  {
+    year: "2020",
+    title: "Fleet Expansion",
+    description: "Doubled fleet size and expanded service territory to cover more Midwest states.",
+    image: "/images/history/expansion.webp",
+    milestone: true
+  },
+  {
+    year: "2021",
+    title: "Safety Recognition",
+    description: "Achieved top safety ratings and implemented advanced fleet management systems.",
+    image: "/images/history/safety.webp",
+    milestone: true
+  },
+  {
+    year: "2022",
+    title: "Service Diversification",
+    description: "Added specialized transport services and expanded equipment capabilities.",
+    image: "/images/history/services.webp",
+    milestone: true
+  },
+  {
+    year: "2023",
+    title: "Technology Integration",
+    description: "Implemented real-time tracking and advanced logistics management systems.",
+    image: "/images/history/tech.webp",
+    milestone: true
+  }
+];
+
+const faqs: FAQ[] = [
+  {
+    question: "What types of cargo do you specialize in?",
+    answer: "We specialize in steel transport, including plates, coils, tubing, and other metal products. Our equipment is specifically designed for these materials, and our team has extensive experience in handling them safely.",
+    category: "Services"
+  },
+  {
+    question: "What is your service area?",
+    answer: "We primarily serve the Midwest region, including Illinois, Indiana, Michigan, Ohio, and Wisconsin. We also offer services to surrounding states based on client needs.",
+    category: "Coverage"
+  },
+  {
+    question: "How do you ensure cargo safety?",
+    answer: "We employ multiple safety measures including specialized securing equipment, trained personnel, regular maintenance checks, and real-time monitoring systems. All our drivers are certified in cargo securing and safety procedures.",
+    category: "Safety"
+  }
+];
+
+const cultureSections: Culture[] = [
+  {
+    title: "Team Development",
+    description: "We invest in our team through comprehensive training programs, career development opportunities, and a supportive work environment.",
+    image: "/images/culture/team-development.webp"
+  },
+  {
+    title: "Community Involvement",
+    description: "NCR Trucking actively participates in local community initiatives and supports various charitable causes in the Chicago area.",
+    image: "/images/culture/community.webp"
+  },
+  {
+    title: "Sustainability",
+    description: "Our commitment to environmental responsibility includes modern fuel-efficient vehicles and eco-friendly practices.",
+    image: "/images/culture/sustainability.webp"
+  }
+];
+---
+<Layout seo={routesSEO.about}>
+  <!-- Hero Section -->
+  <section class="relative py-20 bg-gray-900 text-white overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src="/images/about/hero-bg.webp"
+        alt="NCR Trucking team and fleet"
+        width={1920}
+        height={1080}
+        class="w-full h-full object-cover opacity-20"
+      />
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
+          Our Story & Mission
+        </h1>
+        <p class="text-xl text-gray-300 mb-8 animate-fade-up animation-delay-200">
+          Since 2019, NCR Trucking has been setting new standards in specialized transportation,
+          combining expertise, reliability, and innovation to serve our clients better.
+        </p>
+        <div class="flex justify-center space-x-4 animate-fade-up animation-delay-400">
+          <a href="#team" class="btn-primary">
+            Meet Our Team
+          </a>
+          <a href="#values" class="btn-secondary">
+            Our Values
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Values -->
+  <section id="values" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Our Core Values</h2>
+        <p class="text-lg text-gray-600">
+          These principles guide every decision we make and shape how we serve our clients.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {companyValues.map((value, index) => (
+          <div 
+            class="bg-gray-50 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-up"
+            style={`animation-delay: ${index * 150}ms`}
+          >
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-accent/10 rounded-full mb-4">
+              <svg 
+                class="w-6 h-6 text-accent" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+                set:html={value.icon}
+              />
+            </div>
+            <h3 class="text-xl font-semibold mb-3">{value.title}</h3>
+            <p class="text-gray-600">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership Team -->
+  <section id="team" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Leadership Team</h2>
+        <p class="text-lg text-gray-600">
+          Meet the experienced professionals who lead NCR Trucking towards excellence.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {teamMembers.map((member, index) => (
+          <div 
+            class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group animate-fade-up"
+            style={`animation-delay: ${index * 200}ms`}
+          >
+            <div class="relative h-80 overflow-hidden">
+              <Image
+                src={member.image}
+                alt={member.name}
+                width={400}
+                height={500}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-2">{member.name}</h3>
+              <p class="text-accent font-medium mb-4">{member.position}</p>
+              <p class="text-gray-600 mb-4">{member.bio}</p>
+              <div class="border-t pt-4">
+                <p class="text-sm text-gray-600 mb-2">
+                  <span class="font-semibold">Experience:</span> {member.experience}
+                </p>
+                <div class="mb-4">
+                  <p class="text-sm font-semibold mb-2">Expertise:</p>
+                  <div class="flex flex-wrap gap-2">
+                    {member.expertise.map((skill) => (
+                      <span class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div class="text-sm text-gray-600">
+                  <p>
+                    <span class="font-semibold">Email:</span>{" "}
+                    <a href={`mailto:${member.contact.email}`} class="text-accent hover:underline">
+                      {member.contact.email}
+                    </a>
+                  </p>
+                  <p>
+                    <span class="font-semibold">Phone:</span>{" "}
+                    <a href={`tel:${member.contact.phone}`} class="text-accent hover:underline">
+                      {member.contact.phone}
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Our Journey</h2>
+        <p class="text-lg text-gray-600">
+          From our humble beginnings to our current success, every step has shaped who we are today.
+        </p>
+      </div>
+
+      <div class="relative">
+        {/* Línea central vertical */}
+        <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-accent/20"></div>
+
+        <div class="space-y-16">
+          {timeline.map((event, index) => (
+            <div 
+              class={`relative flex items-center ${
+                index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+              } animate-fade-up`}
+              style={`animation-delay: ${index * 200}ms`}
+            >
+              {/* Punto en la línea temporal */}
+              <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full"></div>
+
+              {/* Contenido */}
+              <div class={`w-1/2 ${index % 2 === 0 ? 'pr-16' : 'pl-16'}`}>
+                <div class="bg-gray-50 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                  {event.image && (
+                    <div class="relative h-48 mb-4 overflow-hidden rounded-lg">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        width={600}
+                        height={400}
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div class="text-accent font-bold text-xl mb-2">{event.year}</div>
+                  <h3 class="text-xl font-semibold mb-3">{event.title}</h3>
+                  <p class="text-gray-600">{event.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications & Awards -->
+  <!-- <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Our Certifications</h2>
+        <p class="text-lg text-gray-600">
+          Recognition of our commitment to excellence and industry standards.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {certifications.map((cert, index) => (
+          <div 
+            class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-up"
+            style={`animation-delay: ${index * 200}ms`}
+          >
+            <div class="relative h-48">
+              <Image
+                src={cert.image}
+                alt={cert.name}
+                width={400}
+                height={300}
+                class="w-full h-full object-contain p-4"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-semibold">{cert.name}</h3>
+                <span class="text-accent font-medium">{cert.year}</span>
+              </div>
+              <p class="text-gray-600 mb-4">{cert.description}</p>
+              <p class="text-sm text-gray-500">Issued by: {cert.issuer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section> -->
+
+  <!-- FAQ Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Frequently Asked Questions</h2>
+        <p class="text-lg text-gray-600">
+          Find answers to common questions about our services and operations.
+        </p>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        {faqs.map((faq, index) => (
+          <div 
+            class="mb-6 animate-fade-up"
+            style={`animation-delay: ${index * 150}ms`}
+          >
+            <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow duration-300">
+              <h3 class="text-xl font-semibold mb-3">{faq.question}</h3>
+              <p class="text-gray-600">{faq.answer}</p>
+              <span class="inline-block mt-3 text-sm text-accent font-medium">
+                Category: {faq.category}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Culture -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Our Culture</h2>
+        <p class="text-lg text-gray-600">
+          Building a positive workplace environment and contributing to our community.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {cultureSections.map((culture, index) => (
+          <div 
+            class="group animate-fade-up"
+            style={`animation-delay: ${index * 200}ms`}
+          >
+            <div class="relative h-64 mb-6 overflow-hidden rounded-lg">
+              <Image
+                src={culture.image}
+                alt={culture.title}
+                width={600}
+                height={400}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <h3 class="text-2xl font-semibold mb-4">{culture.title}</h3>
+            <p class="text-gray-600">{culture.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-primary text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 animate-fade-up">
+        Join Our Growing Team
+      </h2>
+      <p class="text-xl mb-12 max-w-2xl mx-auto animate-fade-up animation-delay-200">
+        We're always looking for talented individuals to join our team. 
+        Discover career opportunities at NCR Trucking.
+      </p>
+      <div class="flex justify-center gap-4 animate-fade-up animation-delay-400">
+        <a 
+          href="/contact" 
+          class="bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-md transition-colors duration-300"
+        >
+          Contact Us
+        </a>
+        <a 
+          href="/careers" 
+          class="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-md transition-colors duration-300"
+        >
+          View Careers
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .btn-primary {
+    @apply bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-md transition-colors duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-md backdrop-blur-sm transition-colors duration-300;
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
