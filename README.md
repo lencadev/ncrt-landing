@@ -1,47 +1,61 @@
-# Astro Starter Kit: Minimal
+# NCR Trucking Inc
 
-```sh
-npm create astro@latest -- --template minimal
-```
+NCR Trucking Inc is a leading transportation company specializing in the transport of steel plates, coils, tubing, and more. Since 2019, we have been providing professional and reliable trucking services.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Key Features
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- Specialized transportation services for steel plates, coils, and specialized cargo
+- Experienced team committed to excellence
+- Coverage of major routes across the Midwest and beyond
+- 24/7 availability to meet your shipping needs
+- Competitive rates and professional service
 
-## 🚀 Project Structure
+## Services
 
-Inside of your Astro project, you'll see the following folders and files:
+- Steel plate transportation
+- Coil transportation
+- Flatbed services
+- Specialized transportation
+- Heavy haul services
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Service Territory
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+NCR Trucking Inc covers major routes throughout the Midwest and beyond. We provide reliable transportation services across our extensive service territory.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Contact
 
-Any static assets, like images, can be placed in the `public/` directory.
+If you need reliable transportation services, don't hesitate to contact us. We are available 24/7 to meet your shipping needs. We offer competitive rates and professional service.
 
-## 🧞 Commands
+- Phone: [Phone Number]
+- Email: [Email Address]
+- Website: [Website URL]
 
-All commands are run from the root of the project, from a terminal:
+## Search Engine Optimization (SEO)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+This project includes a robust SEO configuration to enhance visibility and search engine rankings. Default and route-specific SEO properties are defined for the website.
 
-## 👀 Want to learn more?
+The SEO properties include:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Page title
+- Description
+- Image (for social media sharing)
+- Canonical URL
+- Page type
+- Relevant keywords
+
+The SEO configuration can be found in the `seo.ts` file and can be imported and used in different parts of the project as needed.
+
+## Contributing
+
+If you'd like to contribute to this project, please follow these steps:
+
+1. Fork the repository
+2. Create a new branch for your feature or bug fix
+3. Make the necessary changes
+4. Submit a pull request
+
+We appreciate all contributions to improve NCR Trucking Inc.
+
+## License
+
+This project is licensed under the [License Name]. See the `LICENSE` file for more information.
