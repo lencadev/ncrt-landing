@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@emailjs/browser": "^4.4.1",
     "@types/leaflet": "^1.9.14",
     "astro": "^4.16.8",
     "leaflet": "^1.9.4",
