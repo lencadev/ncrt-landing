@@ -1,6 +1,4 @@
 import { type APIRoute } from 'astro';
-import { routes } from '../data/seo';
-
 const pages = [
   { url: '', priority: '1.0', changefreq: 'weekly' },
   { url: '/who-we-are', priority: '0.8', changefreq: 'monthly' },
