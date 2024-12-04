@@ -111,8 +111,8 @@ const locations: LocationInfo[] = [
       zip: "60618",
     },
     coordinates: {
-      lat: 41.8781,
-      lng: -87.6298,
+      lat: 41.5819,
+      lng: -87.281,
     },
     type: "headquarters",
   },
@@ -216,14 +216,21 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
         <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
           Always Here When You Need Us
         </h1>
-        <p class="text-xl text-gray-300 mb-8 animate-fade-up animation-delay-200">
-          24/7 support across the Midwest with dedicated teams ready to handle your shipping needs anytime, anywhere.
+        <p
+          class="text-xl text-gray-300 mb-8 animate-fade-up animation-delay-200">
+          24/7 support across the Midwest with dedicated teams ready to handle
+          your shipping needs anytime, anywhere.
         </p>
-        <div class="flex flex-wrap justify-center gap-4 animate-fade-up animation-delay-400">
-          <a href="#urgent" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300">
+        <div
+          class="flex flex-wrap justify-center gap-4 animate-fade-up animation-delay-400">
+          <a
+            href="#urgent"
+            class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300">
             Urgent Shipment
           </a>
-          <a href="#quote" class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300">
+          <a
+            href="#quote"
+            class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300">
             Request Quote
           </a>
         </div>
@@ -240,7 +247,9 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
           <form id="contact-form" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700 mb-1">
                   Full Name
                 </label>
                 <input
@@ -252,7 +261,9 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
                 />
               </div>
               <div>
-                <label for="company" class="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  for="company"
+                  class="block text-sm font-medium text-gray-700 mb-1">
                   Company Name
                 </label>
                 <input
@@ -266,7 +277,9 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-700 mb-1">
                   Email Address
                 </label>
                 <input
@@ -278,7 +291,9 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
                 />
               </div>
               <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  for="phone"
+                  class="block text-sm font-medium text-gray-700 mb-1">
                   Phone Number
                 </label>
                 <input
@@ -292,24 +307,29 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
             </div>
 
             <div>
-              <label for="service" class="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                for="service"
+                class="block text-sm font-medium text-gray-700 mb-1">
                 Service Type
               </label>
               <select
                 id="service"
                 name="service"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-accent focus:border-accent"
-                required
-              >
+                required>
                 <option value="">Select a service</option>
-                {serviceTypes.map((service) => (
-                  <option value={service.id}>{service.name}</option>
-                ))}
+                {
+                  serviceTypes.map((service) => (
+                    <option value={service.id}>{service.name}</option>
+                  ))
+                }
               </select>
             </div>
 
             <div>
-              <label for="message" class="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                for="message"
+                class="block text-sm font-medium text-gray-700 mb-1">
                 Message
               </label>
               <textarea
@@ -317,8 +337,7 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
                 name="message"
                 rows="4"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-accent focus:border-accent"
-                required
-              ></textarea>
+                required></textarea>
             </div>
 
             <!-- Añade el div para el mensaje de estado -->
@@ -329,8 +348,7 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
             <button
               type="submit"
               id="submit-btn"
-              class="w-full bg-accent hover:bg-accent/90 text-white py-3 px-6 rounded-md transition-colors duration-300"
-            >
+              class="w-full bg-accent hover:bg-accent/90 text-white py-3 px-6 rounded-md transition-colors duration-300">
               Send Message
             </button>
           </form>
@@ -541,78 +559,83 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
   </section>
 </Layout>
 <!-- Añade el script de EmailJS en el head -->
-<script is:inline src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script
+  is:inline
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+></script>
 
 <!-- Añade el script para manejar el formulario -->
-<script define:vars={{ EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID }}>
-// Inicializar EmailJS
-(function() {
-  emailjs.init(EMAILJS_PUBLIC_KEY);
-})();
+<script
+  define:vars={{ EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID }}
+>
+  // Inicializar EmailJS
+  (function () {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  })();
 
-// Elementos del DOM
-const form = document.getElementById('contact-form');
-const submitButton = document.getElementById('submit-btn');
-const formStatus = document.getElementById('form-status');
+  // Elementos del DOM
+  const form = document.getElementById("contact-form");
+  const submitButton = document.getElementById("submit-btn");
+  const formStatus = document.getElementById("form-status");
 
-// Función para mostrar mensajes de estado
-function showStatus(message, type) {
-  if (!formStatus) return;
-  
-  formStatus.classList.remove('hidden');
-  const statusText = formStatus.querySelector('p');
-  if (statusText) {
-    statusText.textContent = message;
-    statusText.className = `text-center py-2 px-4 rounded-md ${
-      type === 'success' 
-        ? 'bg-green-100 text-green-800' 
-        : 'bg-red-100 text-red-800'
-    }`;
+  // Función para mostrar mensajes de estado
+  function showStatus(message, type) {
+    if (!formStatus) return;
+
+    formStatus.classList.remove("hidden");
+    const statusText = formStatus.querySelector("p");
+    if (statusText) {
+      statusText.textContent = message;
+      statusText.className = `text-center py-2 px-4 rounded-md ${
+        type === "success"
+          ? "bg-green-100 text-green-800"
+          : "bg-red-100 text-red-800"
+      }`;
+    }
+
+    // Ocultar el mensaje después de 5 segundos
+    setTimeout(() => {
+      formStatus.classList.add("hidden");
+    }, 5000);
   }
 
-  // Ocultar el mensaje después de 5 segundos
-  setTimeout(() => {
-    formStatus.classList.add('hidden');
-  }, 5000);
-}
+  // Manejar el envío del formulario
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-// Manejar el envío del formulario
-if (form) {
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    // Deshabilitar el botón y cambiar el texto
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
-    }
-
-    try {
-      // Enviar el email usando EmailJS
-      const result = await emailjs.sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        form
-      );
-
-      if (result.status === 200) {
-        showStatus('Message sent successfully!', 'success');
-        form.reset();
-      } else {
-        throw new Error('Failed to send message');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      showStatus('Failed to send message. Please try again.', 'error');
-    } finally {
-      // Restaurar el botón
+      // Deshabilitar el botón y cambiar el texto
       if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Send Message';
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
       }
-    }
-  });
-}
+
+      try {
+        // Enviar el email usando EmailJS
+        const result = await emailjs.sendForm(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          form
+        );
+
+        if (result.status === 200) {
+          showStatus("Message sent successfully!", "success");
+          form.reset();
+        } else {
+          throw new Error("Failed to send message");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        showStatus("Failed to send message. Please try again.", "error");
+      } finally {
+        // Restaurar el botón
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Send Message";
+        }
+      }
+    });
+  }
 </script>
 
 <style>
