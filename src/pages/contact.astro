@@ -37,7 +37,7 @@ interface LocationInfo {
 interface FAQ {
   question: string;
   answer: string;
-  category: "general" | "quotes" | "emergency";
+  category: "general" | "quotes" | "emergency" | "services" | "equipment"  ;
 }
 
 interface ServiceType {
@@ -134,22 +134,29 @@ const locations: LocationInfo[] = [
 
 const faqs: FAQ[] = [
   {
-    question: "How do I get a quote for transportation services?",
-    answer:
-      "You can request a quote through our online form, call our main office, or email us with your shipment details. We typically respond within 2 hours during business hours.",
+    question: "What states do you operate in?",
+    answer: "We operate nationwide across the United States, providing comprehensive transportation services to all states.",
+    category: "services",
+  },
+  {
+    question: "What size trailers do you have?",
+    answer: "We offer a variety of trailer sizes to accommodate different shipping needs, including 53' dry vans, flatbeds, and specialized equipment. Contact us for specific dimensions and availability.",
+    category: "equipment",
+  },
+  {
+    question: "What if my freight is too big for a trailer?",
+    answer: "For oversized loads, we provide specialized equipment and can arrange custom transportation solutions including lowboys, step decks, and RGN trailers to accommodate your oversize freight.",
+    category: "services",
+  },
+  {
+    question: "Do I need the exact weight or can I estimate the weight?",
+    answer: "While an estimate is acceptable for initial quotes, providing the exact weight is crucial for final booking to ensure proper equipment selection and compliance with transportation regulations.",
     category: "quotes",
   },
   {
-    question: "What information do I need for a quote?",
-    answer:
-      "Please provide pickup/delivery locations, cargo type, weight, dimensions, preferred delivery date, and any special handling requirements.",
-    category: "quotes",
-  },
-  {
-    question: "How do I schedule an emergency pickup?",
-    answer:
-      "Contact our 24/7 dispatch number at 773-703-1227 for immediate assistance with emergency pickups.",
-    category: "emergency",
+    question: "Do you use chains, straps, or both for your flatbed trailers?",
+    answer: "We use both chains and straps for securing cargo on our flatbed trailers, depending on the type of freight and specific securing requirements to ensure safe transportation.",
+    category: "equipment",
   },
 ];
 
