@@ -2,6 +2,8 @@
 import SEO from "../components/SEO.astro";
 import { type SEOProps } from "../data/seo";
 import Footer from "../components/Footer.astro";
+import LanguageSelector from "../components/LanguageSelector";
+
 interface Props {
   seo?: Partial<SEOProps>;
 }
@@ -37,7 +39,17 @@ const currentPath = Astro.url.pathname;
       <nav class="container mx-auto px-8 py-2">
         <div class="flex items-center justify-between">
           <!-- Logo -->
-          
+          <a
+            href="/"
+            class="flex items-center space-x-2"
+            aria-label="NCR Trucking
+          Home">
+            <img
+              src="/Logo-Short.webp"
+              alt="NCR Trucking Inc Logo"
+              width="200"
+            />
+          </a>
 
           <!-- Navegación Desktop -->
           <div class="hidden md:flex items-center space-x-8">
@@ -56,18 +68,9 @@ const currentPath = Astro.url.pathname;
                 </a>
               ))
             }
+            <LanguageSelector client:load />
           </div>
-          <a
-          href="/"
-          class="flex items-center space-x-2"
-          aria-label="NCR Trucking Home">
-          <img
-            src="/Logo-Short.webp"
-            alt="NCR Trucking Inc Logo"
-            
-            width="200"
-          />
-        </a>
+
           <!-- Botón Mobile Menu -->
           <button
             id="mobile-menu-button"
@@ -109,95 +112,96 @@ const currentPath = Astro.url.pathname;
                 </a>
               ))
             }
+            <LanguageSelector client:load />
           </div>
         </div>
       </nav>
-    </header>
 
-    <!-- Contenido principal -->
-    <main class="flex-grow pt-16">
-      <slot />
-    </main>
-    <Footer />
+      <!-- Contenido principal -->
+      <main class="flex-grow pt-16">
+        <slot />
+      </main>
+      <Footer />
 
-    <!-- Script para el menú mobile -->
-    <script>
-      const mobileMenuButton = document.getElementById(
-        "mobile-menu-button"
-      ) as HTMLButtonElement | null;
-      const mobileMenu = document.getElementById(
-        "mobile-menu"
-      ) as HTMLDivElement | null;
+      <!-- Script para el menú mobile -->
+      <script>
+        const mobileMenuButton = document.getElementById(
+          "mobile-menu-button"
+        ) as HTMLButtonElement | null;
+        const mobileMenu = document.getElementById(
+          "mobile-menu"
+        ) as HTMLDivElement | null;
 
-      mobileMenuButton?.addEventListener("click", () => {
-        mobileMenu?.classList.toggle("hidden");
-      });
+        mobileMenuButton?.addEventListener("click", () => {
+          mobileMenu?.classList.toggle("hidden");
+        });
 
-      // Cerrar menú al hacer click fuera
-      document.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        if (
-          !target.closest("#mobile-menu") &&
-          !target.closest("#mobile-menu-button")
-        ) {
-          mobileMenu?.classList.add("hidden");
+        // Cerrar menú al hacer click fuera
+        document.addEventListener("click", (e) => {
+          const target = e.target as HTMLElement;
+          if (
+            !target.closest("#mobile-menu") &&
+            !target.closest("#mobile-menu-button")
+          ) {
+            mobileMenu?.classList.add("hidden");
+          }
+        });
+
+        // Cerrar menú al cambiar el tamaño de la ventana
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 768) {
+            mobileMenu?.classList.add("hidden");
+          }
+        });
+      </script>
+
+      <style is:global>
+        /* Base */
+        :root {
+          --color-primary: #1a1a1a;
+          --color-accent: #4a90e2;
         }
-      });
 
-      // Cerrar menú al cambiar el tamaño de la ventana
-      window.addEventListener("resize", () => {
-        if (window.innerWidth >= 768) {
-          mobileMenu?.classList.add("hidden");
+        /* Navegación */
+        .nav-link {
+          @apply text-primary hover:text-accent transition-colors duration-200 font-medium;
         }
-      });
-    </script>
 
-    <style is:global>
-      /* Base */
-      :root {
-        --color-primary: #1a1a1a;
-        --color-accent: #4a90e2;
-      }
+        .nav-link.active {
+          @apply text-accent;
+        }
 
-      /* Navegación */
-      .nav-link {
-        @apply text-primary hover:text-accent transition-colors duration-200 font-medium;
-      }
-
-      .nav-link.active {
-        @apply text-accent;
-      }
-
-      .nav-indicator {
-        @apply absolute bottom-0 left-0 w-full h-0.5 bg-accent 
-               scale-x-0 transition-transform duration-300 origin-left;
-      }
-
-      .nav-link.active .nav-indicator,
-      .nav-link:hover .nav-indicator {
-        @apply scale-x-100;
-      }
-
-      /* Scrollbar personalizado */
-      ::-webkit-scrollbar {
-        @apply w-2;
-      }
-
-      ::-webkit-scrollbar-track {
-        @apply bg-gray-100;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors;
-      }
-
-      /* Estilos móviles */
-      @media (max-width: 768px) {
         .nav-indicator {
-          @apply w-1 h-full right-0 left-auto;
-          transform-origin: top;
+          @apply absolute bottom-0 left-0 w-full h-0.5 bg-accent 
+               scale-x-0 transition-transform duration-300 origin-left;
         }
-      }
-    </style>
+
+        .nav-link.active .nav-indicator,
+        .nav-link:hover .nav-indicator {
+          @apply scale-x-100;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+          @apply w-2;
+        }
+
+        ::-webkit-scrollbar-track {
+          @apply bg-gray-100;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors;
+        }
+
+        /* Estilos móviles */
+        @media (max-width: 768px) {
+          .nav-indicator {
+            @apply w-1 h-full right-0 left-auto;
+            transform-origin: top;
+          }
+        }
+      </style>
+    </header>
   </body>
 </html>
