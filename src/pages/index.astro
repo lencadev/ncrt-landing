@@ -229,7 +229,7 @@ const safetyMetrics: SafetyMetric[] = [
 
 <Layout seo={routesSEO.home}>
   <!-- Hero Section con Video -->
-  <section id="hero" class="relative h-screen overflow-hidden">
+  <section id="hero" class="relative min-h-screen w-full overflow-hidden">
     <!-- Video Background -->
     <div class="absolute inset-0 w-full h-full">
       <video
@@ -246,28 +246,29 @@ const safetyMetrics: SafetyMetric[] = [
     </div>
 
     <!-- Main Content -->
-    <div class="relative h-full container mx-auto px-4">
+    <div class="mt-20 relative h-full container mx-auto px-4 sm:px-6 lg:px-8">
       <div
-        class="flex flex-col md:flex-row items-center justify-between h-full py-16 md:py-0">
+        class="flex flex-col lg:flex-row items-center justify-between h-full py-16 lg:py-0 gap-8">
         <!-- Left Content -->
         <div
-          class="flex flex-col justify-center md:w-1/2 space-y-6 md:space-y-8">
+          class="flex flex-col justify-center w-full lg:w-1/2 space-y-6 lg:space-y-8">
           <h1
-            class="text-5xl md:text-7xl font-bold text-white animate-fade-in">
+            class="text-4xl sm:text-5xl lg:text-7xl font-bold text-white animate-fade-in leading-tight">
             Professional <span class="text-accent">Transportation</span> Services
           </h1>
 
           <!-- Stats Grid -->
-          <div class="grid grid-cols-2 gap-4 w-full max-w-xl animate-fade-up">
+          <div
+            class="grid grid-cols-2 gap-3 sm:gap-4 w-full max-w-xl animate-fade-up">
             {
               heroStats.map((stat, index) => (
                 <div
-                  class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white transform hover:scale-105 transition-transform duration-300"
+                  class="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-300"
                   style={`animation-delay: ${(index + 2) * 200}ms`}>
-                  <div class="text-3xl font-bold text-accent mb-2">
+                  <div class="text-2xl sm:text-3xl font-bold text-accent mb-2">
                     {stat.value}
                   </div>
-                  <div class="text-sm md:text-base">{stat.label}</div>
+                  <div class="text-sm sm:text-base">{stat.label}</div>
                 </div>
               ))
             }
@@ -278,29 +279,27 @@ const safetyMetrics: SafetyMetric[] = [
             class="flex flex-col sm:flex-row gap-4 pt-4 animate-fade-up animation-delay-800">
             <a
               href="/contact"
-              class="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-lg text-lg font-semibold text-center transition-all duration-300 hover:shadow-lg">
+              class="bg-accent hover:bg-accent/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold text-center transition-all duration-300 hover:shadow-lg">
               Get a Quote
             </a>
-
             <a
               href="/what-we-do"
-              class="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-semibold text-center backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
+              class="bg-white/10 hover:bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold text-center backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
               Our Services
             </a>
           </div>
         </div>
 
-        <!-- Right Content (Image) -->
-        <div class="hidden md:block w-1/2 pl-8">
+        <!-- Right Content (Image) - Hidden on mobile, visible from lg breakpoint -->
+        <div class=" w-full lg:w-1/2 pl-0 lg:pl-8">
           <img
             src="/Logo-White.webp"
             alt="NCR Trucking Inc Logo"
-            class="animate-fade-in p-11"
+            class="hidden lg:block animate-fade-in p-8 lg:p-11 w-full max-w-2xl mx-auto"
           />
-
           <p
-            class="text-xl bg-black/10 backdrop-blur-sm rounded-lg p-6 text-white transform hover:scale-105 transition-transform duration-300">
-            We are NCR Trucking Inc, we have been in the market since 2019 We
+            class="text-lg sm:text-xl bg-black/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-300 max-w-2xl mx-auto">
+            We are NCR Trucking Inc, we have been in the market since 2019. We
             provide our customers need with the best transportation service
           </p>
         </div>
@@ -309,9 +308,9 @@ const safetyMetrics: SafetyMetric[] = [
 
     <!-- Scroll Indicator -->
     <div
-      class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block">
       <svg
-        class="w-8 h-8 text-white/80 hover:text-white transition-colors duration-300"
+        class="w-6 h-6 sm:w-8 sm:h-8 text-white/80 hover:text-white transition-colors duration-300"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor">
@@ -319,7 +318,8 @@ const safetyMetrics: SafetyMetric[] = [
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          d="M19 14l-7 7m0 0l-7-7m7 7V3">
+        </path>
       </svg>
     </div>
   </section>
