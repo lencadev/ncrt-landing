@@ -1,6 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "types": ["vite/client"]
+    "types": ["vite/client","astro/client", "@types/i18next"]
+
   }
 }
