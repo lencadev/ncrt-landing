@@ -1,0 +1,182 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { routesSEO } from "../../data/seo";
+import { Image } from "astro:assets";
+
+interface Region {
+  name: string;
+  description: string;
+  coverage: number;
+  mainServices: string[];
+}
+
+const regions: Region[] = [
+  {
+    name: "North",
+    description:
+      "Strategic coverage across northern states with specialized cold-weather logistics capabilities.",
+    coverage: 90,
+    mainServices: [
+      "Industrial Transport",
+      "Cross-Border Services",
+      "Temperature Controlled",
+    ],
+  },
+  {
+    name: "South",
+    description:
+      "Comprehensive network spanning southern regions with port and cross-border operations.",
+    coverage: 95,
+    mainServices: ["Port Logistics", "International Trade", "Express Delivery"],
+  },
+  {
+    name: "East",
+    description:
+      "Dense urban network coverage with rapid transit and specialized delivery solutions.",
+    coverage: 95,
+    mainServices: [
+      "Urban Logistics",
+      "Express Services",
+      "Last Mile Solutions",
+    ],
+  },
+  {
+    name: "West",
+    description:
+      "Extended coverage from coast to mountains with eco-friendly transport options.",
+    coverage: 85,
+    mainServices: ["Long-haul Transport", "Green Logistics", "Mountain Routes"],
+  },
+];
+---
+
+<Layout seo={routesSEO.territory}>
+  <!-- Hero Section -->
+  <section class="relative py-20 bg-primary text-white overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src="/images/territory/hero-map.webp"
+        alt="US Service Territory Map"
+        width={1920}
+        height={1080}
+        class="w-full h-full object-cover opacity-20"
+      />
+    </div>
+    <div class="container mx-auto px-4">
+      <h1
+        class="text-4xl md:text-5xl font-bold text-white text-center mb-6 animate-fade-down">
+        Our Coverage
+      </h1>
+      <p
+        class="text-xl text-white/90 text-center max-w-2xl mx-auto animate-fade-up">
+        Strategic presence across all cardinal directions, ensuring reliable
+        logistics solutions nationwide.
+      </p>
+    </div>
+  </section>
+
+  <!-- Regions Grid -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {
+          regions.map((region, index) => (
+            <div
+              class="bg-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-500 ease-in-out transform hover:-translate-y-1 animate-fade-up"
+              style={`animation-delay: ${index * 150}ms`}>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-2xl font-bold text-gray-800">{region.name}</h3>
+                <div class="flex items-center gap-2">
+                  <div class="h-2 w-24 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      class="h-full bg-accent rounded-full transition-all duration-500"
+                      style={`width: ${region.coverage}%`}
+                    />
+                  </div>
+                  <span class="text-sm font-medium text-gray-600">
+                    {region.coverage}%
+                  </span>
+                </div>
+              </div>
+
+              <p class="text-gray-600 mb-6">{region.description}</p>
+
+              <div class="space-y-2">
+                {region.mainServices.map((service) => (
+                  <div class="flex items-center text-gray-700">
+                    <svg
+                      class="w-5 h-5 text-accent mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    {service}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-8 animate-fade-up">Ready to Ship?</h2>
+      <div class="flex justify-center gap-4">
+        <a
+          href="/contact"
+          class="bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
+          Get Started
+        </a>
+        <a
+          href="/services"
+          class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
+          Our Services
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .animate-fade-down {
+    opacity: 0;
+    animation: fadeDown 0.8s ease-out forwards;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

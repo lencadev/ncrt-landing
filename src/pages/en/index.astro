@@ -1,0 +1,604 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { routesSEO } from "../../data/seo";
+import { Image } from "astro:assets";
+
+// Interfaces
+interface HeroStats {
+  value: string;
+  label: string;
+}
+
+interface Service {
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+}
+
+interface Testimonial {
+  name: string;
+  position: string;
+  company: string;
+  content: string;
+  image: string;
+}
+
+interface Achievement {
+  title: string;
+  value: string;
+  suffix: string;
+  description: string;
+}
+
+interface Feature {
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface Equipment {
+  name: string;
+  description: string;
+  specs: string[];
+  image: string;
+}
+
+interface SafetyMetric {
+  metric: string;
+  value: string;
+  description: string;
+  icon: string;
+}
+
+// Datos
+const heroStats: HeroStats[] = [
+  { value: "5+", label: "Years Experience" },
+  { value: "7", label: "Modern Trucks" },
+  { value: "10", label: "Trailers" },
+  { value: "24/7", label: "Support" },
+];
+
+const services: Service[] = [
+  {
+    title: "Steel Transport",
+    description:
+      "Specialized in transporting steel plates, coils, and tubing with maximum safety and precision. Our experienced team handles your valuable cargo with expertise.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />`,
+    link: "/what-we-do#steel",
+  },
+  {
+    title: "Flatbed Services",
+    description:
+      "Professional flatbed transportation with comprehensive equipment and expertise. Equipped for oversized loads and specialized cargo requirements.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />`,
+    link: "/what-we-do#flatbed",
+  },
+  {
+    title: "24/7 Support",
+    description:
+      "Round-the-clock customer service and emergency support when you need it. Our dedicated team is always ready to assist with any transportation needs.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />`,
+    link: "/contact",
+  },
+];
+
+const testimonials: Testimonial[] = [
+  {
+    name: "John Martinez",
+    position: "Logistics Manager",
+    company: "Steel Solutions Corp",
+    content:
+      "NCR Trucking has been instrumental in our supply chain success. Their commitment to timely deliveries and careful handling of our steel products is outstanding. The real-time tracking and professional communication make managing shipments effortless.",
+    image: "/images/testimonials/avatar.webp",
+  },
+  {
+    name: "Sarah Chen",
+    position: "Operations Director",
+    company: "MetalWorks Industries",
+    content:
+      "Working with NCR Trucking has significantly improved our logistics efficiency. Their 24/7 support and professional drivers make all the difference. We've seen a 30% reduction in transit times since partnering with them.",
+    image: "/images/testimonials/avatar.webp",
+  },
+  {
+    name: "Michael Rodriguez",
+    position: "Plant Manager",
+    company: "Industrial Metals Co",
+    content:
+      "The level of care and expertise NCR Trucking brings to heavy haul transportation is exceptional. They've become our go-to partner for all critical shipments. Their safety record and equipment quality are unmatched in the industry.",
+    image: "/images/testimonials/avatar.webp",
+  },
+];
+
+const achievements: Achievement[] = [
+  {
+    title: "Miles Covered",
+    value: "2.5",
+    suffix: "M+",
+    description: "Safe miles traveled across the United States",
+  },
+  {
+    title: "On-Time Delivery",
+    value: "99.8",
+    suffix: "%",
+    description: "Consistent and reliable delivery performance",
+  },
+  {
+    title: "Satisfied Clients",
+    value: "500",
+    suffix: "+",
+    description: "Trusted by leading companies in the industry",
+  },
+  {
+    title: "Safety Rating",
+    value: "5",
+    suffix: "★",
+    description: "Top safety rating in the transportation industry",
+  },
+];
+
+const features: Feature[] = [
+  {
+    title: "State-of-the-Art Fleet",
+    description:
+      "Our modern fleet includes the latest model trucks equipped with advanced safety features and GPS tracking systems. Each vehicle undergoes rigorous maintenance to ensure optimal performance and reliability. Real-time monitoring ensures your cargo is always on track.",
+    image: "/images/fleet/modern-fleet-1.webp",
+  },
+  {
+    title: "Expert Team",
+    description:
+      "Our experienced drivers undergo continuous training in safety protocols, load securing, and efficient route planning. With an average of 10+ years of experience, they handle your cargo with expertise. Regular safety meetings and updates keep our team at the forefront of industry best practices.",
+    image: "/images/team/drivers-team.webp",
+  },
+  {
+    title: "Specialized Equipment",
+    description:
+      "From flatbeds to step decks, our trailers are equipped with the latest securing systems and protective gear. We maintain a comprehensive inventory of straps, chains, and tarps for any transport need. Our equipment is regularly inspected and updated to meet the highest industry standards.",
+    image: "/images/equipment/specialized-equipment.webp",
+  },
+];
+
+const equipment: Equipment[] = [
+  {
+    name: "Flatbed Trailers",
+    description:
+      "High-capacity flatbed trailers designed for versatile cargo transport",
+    specs: [
+      "48-53 ft length options",
+      "Up to 48,000 lbs capacity",
+      "Air-ride suspension",
+      "Multiple tie-down points",
+      "Weather-resistant tarping systems",
+    ],
+    image: "/images/equipment/flatbed-1.webp",
+  },
+  {
+    name: "Step Deck Trailers",
+    description: "Specialized step deck trailers for oversized and tall cargo",
+    specs: [
+      "53 ft total length",
+      "Two-level deck design",
+      "Reinforced construction",
+      "Adjustable ramps",
+      "Extended loading capabilities",
+    ],
+    image: "/images/equipment/step-deck-1.webp",
+  },
+  {
+    name: "Heavy Haul Equipment",
+    description: "Specialized equipment for exceptional and overweight loads",
+    specs: [
+      "Multi-axle configurations",
+      "Extended weight capacity",
+      "Hydraulic systems",
+      "Custom securing options",
+      "Permit-ready setup",
+    ],
+    image: "/images/equipment/heavy-haul-1.webp",
+  },
+];
+
+const safetyMetrics: SafetyMetric[] = [
+  {
+    metric: "Safety Score",
+    value: "98%",
+    description: "DOT safety rating and compliance",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />`,
+  },
+  {
+    metric: "Driver Training",
+    value: "100%",
+    description: "Completion of safety programs",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />`,
+  },
+  {
+    metric: "Maintenance",
+    value: "24/7",
+    description: "Preventive maintenance program",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />`,
+  },
+  {
+    metric: "Incident Rate",
+    value: "0.1%",
+    description: "Industry-leading safety record",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`,
+  },
+];
+---
+
+<Layout seo={routesSEO.home}>
+  <!-- Hero Section con Video -->
+  <section id="hero" class="relative min-h-screen w-full overflow-hidden">
+    <!-- Video Background -->
+    <div class="absolute inset-0 w-full h-full">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="object-cover w-full h-full"
+        poster="/images/hero-poster.webp">
+        <source src="/videos/hero.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/40 to-black/40">
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mt-20 relative h-full container mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="flex flex-col lg:flex-row items-center justify-between h-full py-16 lg:py-0 gap-8">
+        <!-- Left Content -->
+        <div
+          class="flex flex-col justify-center w-full lg:w-1/2 space-y-6 lg:space-y-8">
+          <h1
+            class="text-4xl sm:text-5xl lg:text-7xl font-bold text-white animate-fade-in leading-tight">
+            Professional <span class="text-accent">Transportation</span> Services
+          </h1>
+
+          <!-- Stats Grid -->
+          <div
+            class="grid grid-cols-2 gap-3 sm:gap-4 w-full max-w-xl animate-fade-up">
+            {
+              heroStats.map((stat, index) => (
+                <div
+                  class="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-300"
+                  style={`animation-delay: ${(index + 2) * 200}ms`}>
+                  <div class="text-2xl sm:text-3xl font-bold text-accent mb-2">
+                    {stat.value}
+                  </div>
+                  <div class="text-sm sm:text-base">{stat.label}</div>
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- CTA Buttons -->
+          <div
+            class="flex flex-col sm:flex-row gap-4 pt-4 animate-fade-up animation-delay-800">
+            <a
+              href="/contact"
+              class="bg-accent hover:bg-accent/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold text-center transition-all duration-300 hover:shadow-lg">
+              Get a Quote
+            </a>
+            <a
+              href="/what-we-do"
+              class="bg-white/10 hover:bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold text-center backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
+              Our Services
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Content (Image) - Hidden on mobile, visible from lg breakpoint -->
+        <div class=" w-full lg:w-1/2 pl-0 lg:pl-8">
+          <img
+            src="/Logo-White.webp"
+            alt="NCR Trucking Inc Logo"
+            class="hidden lg:block animate-fade-in p-8 lg:p-11 w-full max-w-2xl mx-auto"
+          />
+          <p
+            class="text-lg sm:text-xl bg-black/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-300 max-w-2xl mx-auto">
+            We are NCR Trucking Inc, we have been in the market since 2019. We
+            provide our customers need with the best transportation service
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div
+      class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block">
+      <svg
+        class="w-6 h-6 sm:w-8 sm:h-8 text-white/80 hover:text-white transition-colors duration-300"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 14l-7 7m0 0l-7-7m7 7V3">
+        </path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Achievement Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {
+          achievements.map((achievement, index) => (
+            <div
+              class="text-center p-6 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-300 animate-fade-up"
+              style={`animation-delay: ${index * 150}ms`}>
+              <div class="text-4xl font-bold text-accent mb-2">
+                {achievement.value}
+                <span class="text-3xl">{achievement.suffix}</span>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">{achievement.title}</h3>
+              <p class="text-gray-600">{achievement.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section with Images -->
+  <section id="services" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Our Services</h2>
+        <p class="text-lg text-gray-600">
+          Comprehensive transportation solutions tailored to meet your specific
+          needs. We specialize in steel transport and offer a range of
+          professional services.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {
+          services.map((service, index) => (
+            <div
+              class="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-up group"
+              style={`animation-delay: ${index * 200}ms`}>
+              <div class="flex items-center mb-4">
+                <svg
+                  class="h-8 w-8 text-accent"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  set:html={service.icon}
+                />
+                <h3 class="text-xl font-semibold ml-3">{service.title}</h3>
+              </div>
+              <p class="text-gray-600 mb-4">{service.description}</p>
+              <a
+                href={service.link}
+                class="text-accent hover:text-accent/80 font-medium inline-flex items-center transition-colors duration-300 group-hover:translate-x-2">
+                Learn More
+                <svg
+                  class="w-5 h-5 ml-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipment Showcase -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Our Equipment</h2>
+        <p class="text-lg text-gray-600">
+          Modern fleet and specialized equipment ready to handle your
+          transportation needs with maximum efficiency and safety.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {
+          equipment.map((item, index) => (
+            <div
+              class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fade-up"
+              style={`animation-delay: ${index * 200}ms`}>
+              <div class="relative h-64 overflow-hidden">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={600}
+                  height={400}
+                  class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-3">{item.name}</h3>
+                <p class="text-gray-600 mb-4">{item.description}</p>
+                <ul class="space-y-2">
+                  {item.specs.map((spec) => (
+                    <li class="flex items-center text-gray-600">
+                      <svg
+                        class="w-5 h-5 text-accent mr-2"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      {spec}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Safety Metrics -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Safety First</h2>
+        <p class="text-lg text-gray-600">
+          Our commitment to safety is reflected in every aspect of our
+          operations, from driver training to equipment maintenance.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {
+          safetyMetrics.map((metric, index) => (
+            <div
+              class="bg-white rounded-lg p-6 shadow-lg text-center animate-fade-up"
+              style={`animation-delay: ${index * 150}ms`}>
+              <div class="inline-flex items-center justify-center w-12 h-12 bg-accent/10 rounded-full mb-4">
+                <svg
+                  class="w-6 h-6 text-accent"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  set:html={metric.icon}
+                />
+              </div>
+              <div class="text-3xl font-bold text-accent mb-2">
+                {metric.value}
+              </div>
+              <h3 class="text-lg font-semibold mb-2">{metric.metric}</h3>
+              <p class="text-gray-600">{metric.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl font-bold mb-6">Client Testimonials</h2>
+        <p class="text-lg text-gray-600">
+          Don't just take our word for it. Here's what our clients say about
+          working with NCR Trucking.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {
+          testimonials.map((testimonial, index) => (
+            <div
+              class="bg-gray-50 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fade-up"
+              style={`animation-delay: ${index * 200}ms`}>
+              <div class="flex items-center mb-4">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  class="w-12 h-12 rounded-full object-cover"
+                  width={48}
+                  height={48}
+                />
+                <div class="ml-4">
+                  <h3 class="font-semibold">{testimonial.name}</h3>
+                  <p class="text-sm text-gray-600">{testimonial.position}</p>
+                  <p class="text-sm text-accent">{testimonial.company}</p>
+                </div>
+              </div>
+              <p class="text-gray-600 italic">{testimonial.content}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section id="cta" class="py-20 bg-primary text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 animate-fade-up">
+        Ready to Get Started?
+      </h2>
+      <p
+        class="text-xl mb-12 max-w-2xl mx-auto animate-fade-up animation-delay-200">
+        Contact us today to discuss your transportation needs and discover how
+        we can help your business grow.
+      </p>
+      <div
+        class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-up animation-delay-400">
+        <a
+          href="/contact"
+          class="inline-block bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-md transition-colors duration-300">
+          Contact Us
+        </a>
+        <a
+          href="/what-we-do"
+          class="inline-block bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-md transition-colors duration-300">
+          Learn More
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-800 {
+    animation-delay: 800ms;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

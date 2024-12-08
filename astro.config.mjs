@@ -8,5 +8,13 @@ export default defineConfig({
   ],
   vite: {
     envPrefix: 'PUBLIC_'
+  },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es'],
+    routing: {
+      prefixDefaultLocale: true,
+      
+    }
   }
 });

@@ -2,10 +2,13 @@
 import SEO from "../components/SEO.astro";
 import { type SEOProps } from "../data/seo";
 import Footer from "../components/Footer.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
 interface Props {
   seo?: Partial<SEOProps>;
 }
 
+const currentLang = Astro.currentLocale || "en";
 interface NavLink {
   href: string;
   text: string;
@@ -13,33 +16,91 @@ interface NavLink {
 
 const { seo } = Astro.props;
 
+// Definición de las traducciones
+const translations = {
+  en: {
+    home: "Home",
+    whoWeAre: "Who We Are",
+    whatWeDo: "What We Do",
+    territory: "Territory We Cover",
+    contact: "Contact Us",
+  },
+  es: {
+    home: "Inicio",
+    whoWeAre: "Quiénes Somos",
+    whatWeDo: "Qué Hacemos",
+    territory: "Territorio que Cubrimos",
+    contact: "Contáctanos",
+  },
+} as const;
+
+// Función para obtener el texto según el idioma actual
+const getText = (key: keyof typeof translations.en) => {
+  return translations[currentLang as keyof typeof translations][key];
+};
+
 const navLinks: NavLink[] = [
-  { href: "/", text: "Home" },
-  { href: "/who-we-are", text: "Who We Are" },
-  { href: "/what-we-do", text: "What We Do" },
-  { href: "/territory", text: "Territory We Cover" },
-  { href: "/contact", text: "Contact Us" },
+  {
+    href: getRelativeLocaleUrl(currentLang, "/"),
+    text: getText("home"),
+  },
+  {
+    href: getRelativeLocaleUrl(currentLang, "/who-we-are"),
+    text: getText("whoWeAre"),
+  },
+  {
+    href: getRelativeLocaleUrl(currentLang, "/what-we-do"),
+    text: getText("whatWeDo"),
+  },
+  {
+    href: getRelativeLocaleUrl(currentLang, "/territory"),
+    text: getText("territory"),
+  },
+  {
+    href: getRelativeLocaleUrl(currentLang, "/contact"),
+    text: getText("contact"),
+  },
 ];
 
-// Obtener la ruta actual para el estado activo
+// Configuración de idiomas disponibles
+const languages = [
+  {
+    code: "en",
+    label: "English",
+    flag: `<svg viewBox="0 0 640 480" class="w-5 h-4">
+      <g stroke-width="1pt">
+        <path fill="#bd3d44" d="M0 0h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.7h972.8V197H0zm0 78.8h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.7h972.8v39.4H0zm0 78.8h972.8V512H0z"/>
+        <path fill="#fff" d="M0 39.4h972.8v39.4H0zm0 78.8h972.8v39.3H0zm0 78.7h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.7h972.8v39.4H0z"/>
+      </g>
+      <path fill="#192f5d" d="M0 0h389.1v275.7H0z"/>
+      <path fill="#fff" d="m32.4 11.8 3.3 10.3h10.8l-8.7 6.3 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8zm64.9 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8zm64.9 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8zm64.9 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8zm64.9 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8z"/>
+    </svg>`,
+  },
+  {
+    code: "es",
+    label: "Español",
+    flag: `<svg viewBox="0 0 640 480" class="w-5 h-4">
+      <path fill="#c60b1e" d="M0 0h640v480H0z"/>
+      <path fill="#ffc400" d="M0 120h640v240H0z"/>
+    </svg>`,
+  },
+];
+// Obtener la ruta actual para el estado activo y para la redirección de idioma
 const currentPath = Astro.url.pathname;
+const currentPathWithoutLang = currentPath.replace(/^\/(en|es)/, "") || "/";
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={currentLang} class="scroll-smooth">
   <head>
     <SEO {...seo} />
   </head>
   <body class="min-h-screen bg-white flex flex-col">
-    <!-- Header con navegación -->
     <header
       class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
       <nav class="container mx-auto px-8 py-2">
         <div class="flex items-center justify-between">
-          <!-- Logo -->
-          
-
-          <!-- Navegación Desktop -->
+          {/* Left side - Navigation Desktop */}
           <div class="hidden md:flex items-center space-x-8">
             {
               navLinks.map((link) => (
@@ -57,39 +118,92 @@ const currentPath = Astro.url.pathname;
               ))
             }
           </div>
-          <a
-          href="/"
-          class="flex items-center space-x-2"
-          aria-label="NCR Trucking Home">
-          <img
-            src="/Logo-Short.webp"
-            alt="NCR Trucking Inc Logo"
-            
-            width="200"
-          />
-        </a>
-          <!-- Botón Mobile Menu -->
-          <button
-            id="mobile-menu-button"
-            class="md:hidden text-primary p-2"
-            aria-label="Toggle menu"
-            type="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16m-16 6h16"></path>
-            </svg>
-          </button>
+
+          {/* Center - Language Selector */}
+          <div class="hidden md:block">
+            <div class="relative group">
+              <button
+                id="language-selector"
+                class="flex items-center space-x-2 px-3 py-2 rounded-md border border-gray-200 hover:border-accent focus:border-accent focus:outline-none transition-colors duration-200"
+                aria-label="Select language">
+                <Fragment
+                  set:html={languages.find((l) => l.code === currentLang)?.flag}
+                />
+                <span class="text-sm font-medium">
+                  {languages.find((l) => l.code === currentLang)?.label}
+                </span>
+                <svg
+                  class="w-4 h-4 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              <div
+                class="absolute right-0 mt-2 w-48 py-2 bg-white rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                {
+                  languages.map((lang) => (
+                    <a
+                      href={getRelativeLocaleUrl(
+                        lang.code,
+                        currentPathWithoutLang
+                      )}
+                      class={`flex items-center space-x-3 px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${
+                        currentLang === lang.code
+                          ? "text-accent"
+                          : "text-gray-700"
+                      }`}>
+                      <Fragment set:html={lang.flag} />
+                      <span>{lang.label}</span>
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - Logo */}
+          <div class="flex items-center">
+            <a
+              href="/"
+              class="flex items-center space-x-2"
+              aria-label="NCR Trucking Home">
+              <img
+                src="/Logo-Short.webp"
+                alt="NCR Trucking Inc Logo"
+                width="200"
+              />
+            </a>
+
+            {/* Mobile Menu Button - Only visible on mobile */}
+            <button
+              id="mobile-menu-button"
+              class="md:hidden ml-4 text-primary p-2"
+              aria-label="Toggle menu"
+              type="button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16m-16 6h16"></path>
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <!-- Mobile Menu -->
+        {/* Mobile Menu */}
         <div
           id="mobile-menu"
           class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-lg">
@@ -109,49 +223,38 @@ const currentPath = Astro.url.pathname;
                 </a>
               ))
             }
+
+            {/* Language Selector - Mobile */}
+            <div class="px-4 py-2">
+              <div class="flex flex-col space-y-2">
+                {
+                  languages.map((lang) => (
+                    <a
+                      href={getRelativeLocaleUrl(
+                        lang.code,
+                        currentPathWithoutLang
+                      )}
+                      class={`flex items-center space-x-3 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors ${
+                        currentLang === lang.code
+                          ? "text-accent bg-gray-50"
+                          : "text-gray-700"
+                      }`}>
+                      <Fragment set:html={lang.flag} />
+                      <span>{lang.label}</span>
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
           </div>
         </div>
       </nav>
+      
     </header>
-
-    <!-- Contenido principal -->
     <main class="flex-grow pt-16">
       <slot />
     </main>
     <Footer />
-
-    <!-- Script para el menú mobile -->
-    <script>
-      const mobileMenuButton = document.getElementById(
-        "mobile-menu-button"
-      ) as HTMLButtonElement | null;
-      const mobileMenu = document.getElementById(
-        "mobile-menu"
-      ) as HTMLDivElement | null;
-
-      mobileMenuButton?.addEventListener("click", () => {
-        mobileMenu?.classList.toggle("hidden");
-      });
-
-      // Cerrar menú al hacer click fuera
-      document.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        if (
-          !target.closest("#mobile-menu") &&
-          !target.closest("#mobile-menu-button")
-        ) {
-          mobileMenu?.classList.add("hidden");
-        }
-      });
-
-      // Cerrar menú al cambiar el tamaño de la ventana
-      window.addEventListener("resize", () => {
-        if (window.innerWidth >= 768) {
-          mobileMenu?.classList.add("hidden");
-        }
-      });
-    </script>
-
     <style is:global>
       /* Base */
       :root {
@@ -199,5 +302,31 @@ const currentPath = Astro.url.pathname;
         }
       }
     </style>
+
+    <script>
+      // Script para el menú mobile
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuButton?.addEventListener("click", () => {
+        mobileMenu?.classList.toggle("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        if (
+          !target.closest("#mobile-menu") &&
+          !target.closest("#mobile-menu-button")
+        ) {
+          mobileMenu?.classList.add("hidden");
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768) {
+          mobileMenu?.classList.add("hidden");
+        }
+      });
+    </script>
   </body>
 </html>
