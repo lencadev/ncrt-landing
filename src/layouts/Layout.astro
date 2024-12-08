@@ -170,16 +170,7 @@ const currentPathWithoutLang = currentPath.replace(/^\/(en|es)/, "") || "/";
 
           {/* Right side - Logo */}
           <div class="flex items-center">
-            <a
-              href="/"
-              class="flex items-center space-x-2"
-              aria-label="NCR Trucking Home">
-              <img
-                src="/Logo-Short.webp"
-                alt="NCR Trucking Inc Logo"
-                width="200"
-              />
-            </a>
+            
 
             {/* Mobile Menu Button - Only visible on mobile */}
             <button
@@ -189,7 +180,7 @@ const currentPathWithoutLang = currentPath.replace(/^\/(en|es)/, "") || "/";
               type="button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
+                class="h-12 w-12"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -201,6 +192,17 @@ const currentPathWithoutLang = currentPath.replace(/^\/(en|es)/, "") || "/";
               </svg>
             </button>
           </div>
+
+          <a
+              href="/"
+              class="flex items-center space-x-2"
+              aria-label="NCR Trucking Home">
+              <img
+                src="/Logo-Short.webp"
+                alt="NCR Trucking Inc Logo"
+                width="200"
+              />
+            </a>
         </div>
 
         {/* Mobile Menu */}
