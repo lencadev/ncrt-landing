@@ -2,7 +2,8 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'http://localhost:4321',
+  // site: 'http://localhost:4321',
+  site: 'https://ncrtlanding.netlify.app',
   integrations: [
     tailwind(),
   ],
